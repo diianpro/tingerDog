@@ -1,0 +1,34 @@
+definitions:
+  domain.ResponseUsers:
+    properties:
+      users:
+        items:
+          $ref: '#/definitions/domain.UserInfo'
+        type: array
+    type: object
+  domain.UserInfo:
+    properties:
+      age:
+        type: integer
+      gender:
+        type: string
+      name:
+        type: string
+    type: object
+info:
+  contact: {}
+  title: animals
+  version: 0.0.1
+paths:
+  /list/user:
+    get:
+      responses:
+        "200":
+          description: Get data successfully
+          schema:
+            items:
+              $ref: '#/definitions/domain.ResponseUsers'
+            type: array
+      tags:
+      - users
+swagger: "2.0"

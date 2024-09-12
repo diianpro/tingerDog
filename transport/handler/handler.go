@@ -19,6 +19,10 @@ func New(src *service.Service) *Handler {
 	}
 }
 
+// GetAllUsers
+// @Tags users
+// @Router /list/user [get]
+// @Success 200 {object} []domain.ResponseUsers "Get data successfully"
 func (h *Handler) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	users, err := h.src.GetAllUsers(r.Context())
 	if err != nil {
