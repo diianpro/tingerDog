@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 
-	"github.com/diianpro/tingerDog/domain"
+	"github.com/diianpro/tingerDog/internal/domain"
 )
 
 func (s *Service) GetAllUsers(ctx context.Context) ([]domain.UserInfo, error) {

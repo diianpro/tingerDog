@@ -5,12 +5,11 @@ import (
 	"log"
 	"log/slog"
 
-	"github.com/diianpro/tingerDog/config"
-	"github.com/diianpro/tingerDog/repository"
-	"github.com/diianpro/tingerDog/service"
-	"github.com/diianpro/tingerDog/storage/postgres"
-	"github.com/diianpro/tingerDog/transport"
-	"github.com/diianpro/tingerDog/transport/handler"
+	"github.com/diianpro/tingerDog/internal/config"
+	"github.com/diianpro/tingerDog/internal/service"
+	"github.com/diianpro/tingerDog/internal/storage/postgres"
+	"github.com/diianpro/tingerDog/internal/transport"
+	"github.com/diianpro/tingerDog/internal/transport/handler"
 )
 
 type LoadConfigFn func() (*config.Config, error)
@@ -38,18 +37,21 @@ func New(loadConfigFn LoadConfigFn) *App {
 
 func (a *App) Start() {
 	defer a.cancelFn()
-
+	ctx := context.Background()
 	db, err := postgres.New(a.ctx, &a.cfg.Postgres)
 	if err != nil {
 		slog.Error("Could not setup storage", err.Error())
 	}
 
 	if err = postgres.ApplyMigrate(postgres.ConnectionString(&a.cfg.Postgres), "../../../migration"); err != nil {
-		log.Fatal("Could not apply migrations.")
+		slog.Error("Could not apply migrations.")
 	}
 	defer db.Close()
 
-	repo := repository.NewRepository(db)
+	repo, err := postgres.New(ctx, &a.cfg.Postgres)
+	if err != nil {
+		slog.Error("Could not set up repository.")
+	}
 	src := service.New(repo)
 	hndl := handler.New(src)
 

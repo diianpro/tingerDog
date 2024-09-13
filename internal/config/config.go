@@ -4,7 +4,7 @@ import (
 	"log/slog"
 
 	"github.com/caarlos0/env/v6"
-	"github.com/diianpro/tingerDog/storage/postgres"
+	"github.com/diianpro/tingerDog/internal/storage/postgres"
 )
 
 type Config struct {

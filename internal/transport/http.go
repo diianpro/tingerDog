@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/diianpro/tingerDog/transport/handler"
+	"github.com/diianpro/tingerDog/internal/transport/handler"
 	"github.com/go-chi/chi/v5"
 	httpSwagger "github.com/swaggo/http-swagger"
 	// Docs contains documentation for swagger.
-	_ "github.com/diianpro/tingerDog/docs"
+	_ "github.com/diianpro/tingerDog/internal/docs"
 )
 
 type Server struct {
